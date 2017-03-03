@@ -19,7 +19,9 @@ def readfile(file) :
 			if (element != ligne[-1]) :
 
 				data[classe][-1][couple[0]] = couple[1]		#add in last
-			
+			else :
+				if element != '\n' : 
+					data[classe][-1][couple[0]] = couple[1]
 
 	#TO BE DEBUGGED-----------------------------------------------------------------------
 	'''for k, v in data.items() :
@@ -31,20 +33,23 @@ def readfile(file) :
 	#for each word detected through all the docs, listing the number of docs containing it.
 	wordpresence = {}	#dictionary(class : dictionary(word : nb of docs containing it))
 	for k, v in data.items() :
-		print(k,"###########\n")
+		#print(k,"###########\n")
 		#if k not in wordpresence.keys() : 			optional
 		wordpresence[k] = {}
 		for elem in v :
 			for k2 in elem.keys() :
-				print(k2, "\n")
-				if k2 not in wordpresence.keys() :
+				#print(k2, "\n")
+				if k2 not in (wordpresence[k]).keys() :
 					(wordpresence[k])[k2] = 1
 				else :
 					#print((wordpresence[k])[k2]+"\n")
 					(wordpresence[k])[k2] += 1
 				
-	for i in wordpresence.keys() :
+	#for i in wordpresence.keys() :
+		#print(i)
+	for i,j in wordpresence.items() :
 		print(i)
+		print(j)
 	#--------------------------------------------------------------------------------------
 
 
@@ -55,7 +60,6 @@ def readfile(file) :
 		print(couple[0])
 		#recup nb occur
 		print(couple[1])'''	
-
 	'''
 	#Suppression du premier element que l'on devra avoir stocke avant. 
 	del (ligne[0])
