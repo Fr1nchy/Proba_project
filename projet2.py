@@ -8,7 +8,7 @@ def readfile(file) :
 		#Parsing lines with whitespaces
 		ligne = line.split(" ")
 		#Stocking the first element of the line
-		classe=ligne[0]
+		classe=int(ligne[0])
 		del(ligne[0])
 		#first time that we find this class
 		if classe not in data.keys() :
@@ -28,6 +28,7 @@ def readfile(file) :
 
 	#for each word detected through all the docs, listing the number of docs containing it.
 	wordpresence = {}	#dictionary(class : dictionary(word : nb of docs containing it))
+	nbmot = {}
 	for k, v in data.items() :
 		#print(k,"###########\n")
 		#if k not in wordpresence.keys() : 			optional
@@ -37,6 +38,10 @@ def readfile(file) :
 				#print(k2, "\n")
 				if k2 not in (wordpresence[k]).keys() :
 					(wordpresence[k])[k2] = 1
+					if k not in nbmot :
+						nbmot[k] = 3
+					else :
+						nbmot[k] += 1
 				else :
 					#print((wordpresence[k])[k2]+"\n")
 					(wordpresence[k])[k2] += 1
@@ -46,8 +51,9 @@ def readfile(file) :
 	for i,j in wordpresence.items() :
 		print(i)
 		print(j)
+	print(nbmot)
 	#--------------------------------------------------------------------------------------
-
+	return wordpresence,nbmot
 
 	'''
 	#verification qu'on est pas dans le dernier élément
@@ -78,5 +84,16 @@ def readfile(file) :
 			print(elem,"\n")
 	'''
 
+def probappari(dicomot,nbmot) :
+	apari={}
+	for i in dicomot :
+		apari[i]={}
+		for j,k in dicomot[i].items() :
+			apari[i][j]=(k+1)/nbmot[i]
+	for i,j in apari.items() : 
+		print(i,j)
 #readfile("BaseReuters-29")
-readfile("test")
+wordintestfile,nbmotintestfile=readfile("test")
+
+probappari(wordintestfile,nbmotintestfile)
+
