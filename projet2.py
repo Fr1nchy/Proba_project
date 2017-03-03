@@ -16,12 +16,8 @@ def readfile(file) :
 		data[classe].append({})	#doc = dictionary(word : nb of occurrences)
 		for element in ligne :
 			couple = element.split(":")
-			if (element != ligne[-1]) :
-
+			if (element != '\n' ) :
 				data[classe][-1][couple[0]] = couple[1]		#add in last
-			else :
-				if element != '\n' : 
-					data[classe][-1][couple[0]] = couple[1]
 
 	#TO BE DEBUGGED-----------------------------------------------------------------------
 	'''for k, v in data.items() :
