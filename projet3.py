@@ -30,6 +30,7 @@ def readfile(file) :
 	#for each word detected through all the docs, listing the number of docs containing it.
 	wordpresence = {}	#dictionary(class : dictionary(word : nb of docs containing it))
 	nbmot = {}
+	baseapprentissage = [] #Liste des mots dans le texte
 	for k, v in data.items() :
 		#print(k,"###########\n")
 		#if k not in wordpresence.keys() : 			optional
@@ -37,6 +38,8 @@ def readfile(file) :
 		for elem in v :
 			for k2 in elem.keys() :
 				#print(k2, "\n")
+				if k2 not in baseapprentissage :
+                                    baseapprentissage.append(k2)
 				if k2 not in (wordpresence[k]).keys() :
 					(wordpresence[k])[k2] = 1
 					if k not in nbmot :
@@ -47,14 +50,14 @@ def readfile(file) :
 					#print((wordpresence[k])[k2]+"\n")
 					(wordpresence[k])[k2] += 1
 				
-	#for i in wordpresence.keys() :
-		#print(i)
-	for i,j in wordpresence.items() :
-		print(i)
-		print(j)
-	print(nbmot)
+	#for i in baseapprentissage :
+	#	print(i)
+	#for i,j in wordpresence.items() :
+	#	print(i)
+	#	print(j)
+	#print(nbmot)
 	#--------------------------------------------------------------------------------------
-	return wordpresence,nbmot
+	return wordpresence,nbmot,baseapprentissage
 
 	'''
 	#verification qu'on est pas dans le dernier élément
@@ -70,6 +73,8 @@ def readfile(file) :
 	for element in ligne :
 		couple = element.split(":")
 		#verification qu'on est pas dans le dernier élément
+print(la)
+print(pasla)
 		if (element != ligne[-1]) :
 			#recuperation de la clef
 			print(couple[0])
@@ -85,31 +90,34 @@ def readfile(file) :
 			print(elem,"\n")
 	'''
 
-def probappari(dicomot,nbmot) :
-	apari={}
-	log={}
-	unmoinslog={}
-	baseapprentissage = {} 
-	for i in dicomot :
-		apari[i]={}
-		for j,k in dicomot[i].items() :
-			nbmaux=int(nbmot[i])
-			apari[i][j]=(k+1)/nbmaux
-			if j not in baseapprentissage :
-				print(nbmaux)
-				print(log(100))
-				print(log(1/nbmaux))
-				#baseapprentissage[j]=
-				#,log(1-(1/nbmot[i])))
-	for i,j in apari.items() : 
-		print(i,j)
-	for i,j in baseapprentissage.items() :
-		print(i,j)
-	return apari,baseapprentissage
+def probappari(dicomot,nbmot,baza) :
+    apari={}
+    absence={}
+    for i in dicomot :
+        #prezdansdoc = list(baza)
+        #print(baza)
+        apari[i]={}
+        absence[i]=(log(1/nbmot[i]),log(1-(1/nbmot[i])))
+        print(absence[i])
+        for j,k in dicomot[i].items() :
+            nbmaux=int(nbmot[i])
+            apari[i][j]=(k+1)/nbmaux
+            #if j in prezdansdoc :
+                #prezdansdoc.remove(j)
+        #print(prezdansdoc)
+        #for h in prezdansdoc :
+    
+    #for i,j in apari.items() : 
+        #print(i,j)
+	#for i,j in baseapprentissage.items() :
+	#	print(i,j)
+    #for i,j in absence.items() :
+        #print (i,j)
+    return apari,absence
 
 
-#readfile("BaseReuters-29")
-wordintestfile,nbmotintestfile=readfile("test")
+#wordintestfile,nbmotintestfile,baseapprentissage=readfile("BaseReuters-29")
+wordintestfile,nbmotintestfile,baseapprentissage=readfile("test")
 
-premierepartie=probappari(wordintestfile,nbmotintestfile)
+la,pasla=probappari(wordintestfile,nbmotintestfile,baseapprentissage)
 
