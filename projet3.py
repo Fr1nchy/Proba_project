@@ -1,6 +1,6 @@
 import time	#debug
 from math import log
-
+import random
 def readfile(file) :
 	f = open(file, "r")
 	data = {}
@@ -31,24 +31,33 @@ def readfile(file) :
 	wordpresence = {}	#dictionary(class : dictionary(word : nb of docs containing it))
 	nbmot = {}
 	baseapprentissage = [] #Liste des mots dans le texte
+	onfaitbazap=True
 	for k, v in data.items() :
 		#print(k,"###########\n")
 		#if k not in wordpresence.keys() : 			optional
-		wordpresence[k] = {}
+		
+		rng=random.randint(0,100)
+		if rng < 31 : 
+			wordpresence[k] = {}
+			onfaitbazap=False
+		else : 
+			onfaitbazap=True
 		for elem in v :
 			for k2 in elem.keys() :
 				#print(k2, "\n")
-				if k2 not in baseapprentissage :
-                                    baseapprentissage.append(k2)
-				if k2 not in (wordpresence[k]).keys() :
-					(wordpresence[k])[k2] = 1
-					if k not in nbmot :
-						nbmot[k] = 3
-					else :
-						nbmot[k] += 1
+				if onfaitbazap :
+					if k2 not in baseapprentissage :
+						baseapprentissage.append(k2)
 				else :
-					#print((wordpresence[k])[k2]+"\n")
-					(wordpresence[k])[k2] += 1
+					if k2 not in (wordpresence[k]).keys() :
+						(wordpresence[k])[k2] = 1
+						if k not in nbmot :
+							nbmot[k] = 3
+						else :
+							nbmot[k] += 1
+					else :
+                                                #print((wordpresence[k])[k2]+"\n")
+						(wordpresence[k])[k2] += 1
 				
 	#for i in baseapprentissage :
 	#	print(i)
