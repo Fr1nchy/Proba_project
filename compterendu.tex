@@ -4,10 +4,17 @@
 \usepackage{lmodern}
 \usepackage[francais]{babel}
 \usepackage{color}
+\oddsidemargin=-0,8cm
+\headsep=-1,5cm
+\textwidth 18cm
+\textheight 25,3cm
+\setlength{\parskip}{35cm}
+
 
 \title{Classification de documents multi dimensionnelle simplifiée avec le modèle de Bernoulli}
 \author{MARCO Florian et BARROIS Florian}
 \date{}
+
 
 \begin{document}
 \maketitle
@@ -15,12 +22,21 @@
 
 \section{Introduction}
 
+Dans ce projet nous allons essayer de déterminer la classification d'un ensemble de document à partir de la fréquence d'apparition comparée à celle d'une base étalon.
+
+Exemple simplifié : si pour une classe A, nous voyons surtout certains type de document ( par exemple des documents texte), si pour une classe B, nous voyons surtout d'autres type de document ( par exemple des documents audios). 
+Nous avons un ensemble de document de classe inconnue, nous pourrons donc retrouver sa classe en fonction des fréquences d'apparition.
+
 \section{Problematique}
+
+Nous allons chercher à représenter un document sous forme de vecteur de variables aléatoires discrètes de Bernoulli. 
 
 \section{Parsing}
 
 \section{Classification}
 
+\section{Utilisation}
 
+Pour utiliser notre programme, il suffit juste d'utiliser Python3.
 
 \end{document}
