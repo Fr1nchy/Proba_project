@@ -31,12 +31,14 @@ def readfile(file) :
 	nbdocs = {}			#number of documents in each class
 	baseapprentissage = [] #Liste des mots dans le texte
 	onfaitbazap=True
+	wordtest=[]
 	for k, v in data.items() :
 		rng=random.randint(1,100)
 		if rng < 31 : 
-			wordpresence[k] = {}
+			wordtest.append((k,[]))
 			onfaitbazap=False
 		else : 
+			wordpresence[k] = {}
 			onfaitbazap=True
 		for elem in v :
 			for k2 in elem.keys() :
@@ -44,7 +46,6 @@ def readfile(file) :
 				if onfaitbazap :							
 					if k2 not in baseapprentissage :		# if the current word is not known yet
 						baseapprentissage.append(k2)
-				else :
 					if k2 not in (wordpresence[k]).keys() :	
 						(wordpresence[k])[k2] = 1
 						if k not in nbdocs :
@@ -53,7 +54,10 @@ def readfile(file) :
 							nbdocs[k] += 1
 					else :
 						(wordpresence[k])[k2] += 1
-				
+				else :
+					if k2 not in wordtest[-1][1] :
+						wordtest[-1][1].append(k2)
+	print(wordtest)					
 	#for i in baseapprentissage :
 	#	print(i)
 	#for i,j in wordpresence.items() :
@@ -61,7 +65,7 @@ def readfile(file) :
 	#	print(j)
 	#print(nbdocs)
 	#--------------------------------------------------------------------------------------
-	return wordpresence,nbdocs,baseapprentissage
+	return wordpresence,nbdocs,baseapprentissage,wordtest
 
 	'''
 	#verification qu'on est pas dans le dernier élément
@@ -132,11 +136,27 @@ def computeProbasK(data) :
 	return probasK
 
 
+allwords = []
+for k, v in wordpresence.items() :
+	for k2, v2 in v.items() :
+		if k2 not in allwords :
+			allwords.append(k2)
+
+bigsommes = {}
+for k, v in data.items():
+	s = 0
+	for word in allwords :
+		for doctest in wordtest :
+			if word in doctest[1] :
+				s += absence[word][0]
+			else
+				s += absence[word][1]
+	bigsommes[k] = s + log(probasK[k])
 
 
 
 #wordintestfile,nbdocsintestfile,baseapprentissage=readfile("BaseReuters-29")
-wordininputfile,nbdocsininputfile,baseapprentissage=readfile("test")
+wordininputfile,nbdocsininputfile,baseapprentissage,motdanstest=readfile("test")
 
 la,pasla=probappari(wordininputfile,nbdocsininputfile,baseapprentissage)
 print("P : ", computeProbasK(data))
