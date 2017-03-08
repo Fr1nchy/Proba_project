@@ -1,10 +1,9 @@
 import time	#debug
 from math import log
 import random
+data = {}
 def readfile(file) :
 	f = open(file, "r")
-	data = {}
-
 	for line in f :
 		#Parsing lines with whitespaces
 		ligne = line.split(" ")
@@ -29,14 +28,11 @@ def readfile(file) :
 
 	#for each word detected through all the docs, listing the number of docs containing it.
 	wordpresence = {}	#dictionary(class : dictionary(word : nb of docs containing it))
-	nbmot = {}
+	nbdocs = {}			#number of documents in each class
 	baseapprentissage = [] #Liste des mots dans le texte
 	onfaitbazap=True
 	for k, v in data.items() :
-		#print(k,"###########\n")
-		#if k not in wordpresence.keys() : 			optional
-		
-		rng=random.randint(0,100)
+		rng=random.randint(1,100)
 		if rng < 31 : 
 			wordpresence[k] = {}
 			onfaitbazap=False
@@ -45,18 +41,17 @@ def readfile(file) :
 		for elem in v :
 			for k2 in elem.keys() :
 				#print(k2, "\n")
-				if onfaitbazap :
-					if k2 not in baseapprentissage :
+				if onfaitbazap :							
+					if k2 not in baseapprentissage :		# if the current word is not known yet
 						baseapprentissage.append(k2)
 				else :
-					if k2 not in (wordpresence[k]).keys() :
+					if k2 not in (wordpresence[k]).keys() :	
 						(wordpresence[k])[k2] = 1
-						if k not in nbmot :
-							nbmot[k] = 3
+						if k not in nbdocs :
+							nbdocs[k] = 3
 						else :
-							nbmot[k] += 1
+							nbdocs[k] += 1
 					else :
-                                                #print((wordpresence[k])[k2]+"\n")
 						(wordpresence[k])[k2] += 1
 				
 	#for i in baseapprentissage :
@@ -64,9 +59,9 @@ def readfile(file) :
 	#for i,j in wordpresence.items() :
 	#	print(i)
 	#	print(j)
-	#print(nbmot)
+	#print(nbdocs)
 	#--------------------------------------------------------------------------------------
-	return wordpresence,nbmot,baseapprentissage
+	return wordpresence,nbdocs,baseapprentissage
 
 	'''
 	#verification qu'on est pas dans le dernier élément
@@ -99,17 +94,17 @@ print(pasla)
 			print(elem,"\n")
 	'''
 
-def probappari(dicomot,nbmot,baza) :
+def probappari(dicomot,nbdocs,baza) :
     apari={}
     absence={}
     for i in dicomot :
-        #prezdansdoc = list(baza)
-        #print(baza)
+        print(i)
         apari[i]={}
-        absence[i]=(log(1/nbmot[i]),log(1-(1/nbmot[i])))
+        absence[i]=(log(1/nbdocs[i]),log(1-(1/nbdocs[i])))
         print(absence[i])
         for j,k in dicomot[i].items() :
-            nbmaux=int(nbmot[i])
+            #print(j, k)
+            nbmaux=int(nbdocs[i])
             apari[i][j]=(k+1)/nbmaux
             #if j in prezdansdoc :
                 #prezdansdoc.remove(j)
@@ -124,9 +119,26 @@ def probappari(dicomot,nbmot,baza) :
         #print (i,j)
     return apari,absence
 
+def computeProbasK(data) :
+	nbtotaldocs = 0
+	for k, v in data.items() :
+		nbtotaldocs = nbtotaldocs + len(v)
 
-#wordintestfile,nbmotintestfile,baseapprentissage=readfile("BaseReuters-29")
-wordintestfile,nbmotintestfile,baseapprentissage=readfile("test")
+	probasK = {}
+	i = 0
+	for k, v in data.items() :
+		probasK[i] = len(v)/nbtotaldocs
+		i += 1
+	return probasK
 
-la,pasla=probappari(wordintestfile,nbmotintestfile,baseapprentissage)
+
+
+
+
+#wordintestfile,nbdocsintestfile,baseapprentissage=readfile("BaseReuters-29")
+wordininputfile,nbdocsininputfile,baseapprentissage=readfile("test")
+
+la,pasla=probappari(wordininputfile,nbdocsininputfile,baseapprentissage)
+print("P : ", computeProbasK(data))
+
 
