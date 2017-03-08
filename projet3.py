@@ -118,14 +118,19 @@ def probappari(dicomot,nbdocs,baza) :
 
 def computeProbasK(data) :
 	nbtotaldocs = 0
-	for k, v in data.items() :
-		nbtotaldocs = nbtotaldocs + len(v)
+	for k, v in data.items() :					# for each class in the learning base
+		nbtotaldocs = nbtotaldocs + len(v)		# count the number of documents in it and add
 
 	dictprobasK = {}
-	i = 0
 	for k, v in data.items() :
-		dictprobasK[i] = len(v)/nbtotaldocs
-		i += 1
+		if k not in dictprobasK.keys() :
+			dictprobasK[k] = 1
+		else :
+			dictprobasK[k] += 1
+
+	for k, v in dictprobasK.items() :
+		dictprobasK[k] = dictprobasK[k]/nbtotaldocs
+		
 	return dictprobasK
 
 
