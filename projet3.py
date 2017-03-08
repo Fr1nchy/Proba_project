@@ -117,16 +117,10 @@ def probappari(dicomot,nbdocs,baza) :
     return apari,absence
 
 def computeProbasK(data) :
-	nbtotaldocs = 0
-	for k, v in data.items() :					# for each class in the learning base
-		nbtotaldocs = nbtotaldocs + len(v)		# count the number of documents in it and add
-
+	nbtotaldocs = sum(len(v) for v in data.values())				# total number of documents in the learning base
 	dictprobasK = {}
-	for k, v in data.items() :
-		if k not in dictprobasK.keys() :
-			dictprobasK[k] = 1
-		else :
-			dictprobasK[k] += 1
+	for k, v in data.items() :										# compute and store p(k) for each class k in the learning base
+		dictprobasK[k] = len(v)
 
 	for k, v in dictprobasK.items() :
 		dictprobasK[k] = dictprobasK[k]/nbtotaldocs
@@ -142,7 +136,7 @@ la,pasla=probappari(wordininputfile,nbdocsininputfile,baseapprentissage)
 probasK = computeProbasK(data)
 print("P : ", probasK)
 
-
+'''
 allwords = []
 for k, v in wordininputfile.items() :		# for each class detected in the input file
 	for k2, v2 in v.items() :				# for each word found existing in this class
@@ -163,5 +157,5 @@ for doctest in motdanstest :				# for each document of the test base
 		bigsums[-1] = s + log(probasK[k])	# store dictionary(k : log(p(k|doc))
 
 print(bigsums)
-
+'''
 
