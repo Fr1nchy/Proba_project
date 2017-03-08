@@ -120,11 +120,7 @@ def computeProbasK(data) :
 	nbtotaldocs = sum(len(v) for v in data.values())				# total number of documents in the learning base
 	dictprobasK = {}
 	for k, v in data.items() :										# compute and store p(k) for each class k in the learning base
-		dictprobasK[k] = len(v)
-
-	for k, v in dictprobasK.items() :
-		dictprobasK[k] = dictprobasK[k]/nbtotaldocs
-		
+		dictprobasK[k] = len(v)/nbtotaldocs
 	return dictprobasK
 
 
