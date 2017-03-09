@@ -12,7 +12,7 @@
 
 \title{Classification de documents multi dimensionnelle simplifiée avec le modèle de Bernoulli}
 \author{MARCO Florian et BARROIS Florian}
-\date{}
+\date{09/03/2017}
 
 
 \begin{document}
@@ -30,22 +30,17 @@ Nous avons un ensemble de document de classe inconnue, nous pourrons donc retrou
 
 Nous allons chercher à représenter un document sous forme de vecteur de variables aléatoires discrètes de Bernoulli. 
 
-\section{Parsing}
+\section{Parsing et Utilisation}
 
 Notre programme va commencer par parser le fichier en entrée :
-Il va lire le fichier ligne par ligne, les découper selon des espaces, stocker le numéro de classe dans un dictionnaire.
-Il va ensuite ajouter dans le dictionnaire de cette classe une liste de dictionnaire, et pour chaque ligne de cette classe va ajouter ses données sous forme de couple clef:valeur.
+Il va lire le fichier ligne par ligne, les découper à chaque espace espaces, stocker le numéro de classe dans un dictionnaire.
+Il va ensuite ajouter dans le dictionnaire de cette classe une liste de dictionnaire, et pour chaque ligne de cette classe va ajouter ses données sous forme de couple nom_du_document:nombre_de_presence.
+Nous faisons un tirage random entre 1 et 100, si notre tirage est inférieur à 31, nous considérons la ligne lue comme une ligne du test, et pour le reste comme une ligne de la base d'apprentissage. On compte en même temps le nombre de docs de chaque classes.  De plus nous allons stocker dans une liste l'ensemble des mots présents dans ces classes pour pouvoir repérer ultérieurement leur absence.
 
-\section{Classification}
-
-Nous faisons une premiere lecture du dictionnaire que nous avons tiré du fichier d'entrée. 
-Nous faisons un tirage random entre 1 et 100, si notre tirage est inférieur à 31, nous considérons la ligne lue comme une ligne du test, et pour le reste comme une ligne de la base d'apprentissage
-
-Pour chaque mot présent dans la base d'apprentissage, nous allons les stocker dans un dictionnaire avec leur nombre d'apparition, tout en comptant le nombre total de chaque classe. De plus nous allons stocker dans une liste l'ensemble des mots présents dans ces classes pour pouvoir repérer ultérieurement leur absence.
-
-Pour les mot présents dans les classes de test :
+Pour les mots présents dans les classes de test, nous stockons uniquement ceux qu'on va voir apparaitre.
 
 Nous faisons une seconde lecture où nous calculons à la fois la fréquence d'apparition , ou la valeur de la probabilité d'absence de chaque mot dans chaque classe.
+
 
 \section{Utilisation}
 
