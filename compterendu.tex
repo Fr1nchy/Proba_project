@@ -33,13 +33,19 @@ Nous allons chercher à représenter un document sous forme de vecteur de variab
 \section{Parsing}
 
 Notre programme va commencer par parser le fichier en entrée :
-Il va lire le fichier ligne par ligne, les découper selon les espaces 
+Il va lire le fichier ligne par ligne, les découper selon des espaces, stocker le numéro de classe dans un dictionnaire.
+Il va ensuite ajouter dans le dictionnaire de cette classe une liste de dictionnaire, et pour chaque ligne de cette classe va ajouter ses données sous forme de couple clef:valeur.
 
 \section{Classification}
 
-Nous faisons une premiere lecture
+Nous faisons une premiere lecture du dictionnaire que nous avons tiré du fichier d'entrée. 
+Nous faisons un tirage random entre 1 et 100, si notre tirage est inférieur à 31, nous considérons la ligne lue comme une ligne du test, et pour le reste comme une ligne de la base d'apprentissage
 
-Nous faisons une seconde lecture
+Pour chaque mot présent dans la base d'apprentissage, nous allons les stocker dans un dictionnaire avec leur nombre d'apparition, tout en comptant le nombre total de chaque classe. De plus nous allons stocker dans une liste l'ensemble des mots présents dans ces classes pour pouvoir repérer ultérieurement leur absence.
+
+Pour les mot présents dans les classes de test :
+
+Nous faisons une seconde lecture où nous calculons à la fois la fréquence d'apparition , ou la valeur de la probabilité d'absence de chaque mot dans chaque classe.
 
 \section{Utilisation}
 
