@@ -54,10 +54,15 @@ def readfile(file) :
 def probappari(dicomot,nbdocs,baza) :
     apari={}
     absence={}
+#For each word in the learning base
     for i in dicomot :
+	#for each class , we create an empty dictionnary of apparition frequency
         apari[i]={}
+	#for each class, we create the value of missingness
         absence[i]=(log(1/nbdocs[i]),log(1-(1/nbdocs[i])))
         for j,k in dicomot[i].items() :
+		#for each word in each class of the learning base
+		# we save the apparition frequency
             nbmaux=int(nbdocs[i])
             apari[i][j]=(k+1)/nbmaux
     return apari,absence
@@ -82,16 +87,18 @@ bigsums=[]
 juste = 0
 faux = 0
 for j in motdanstest : 
-	#print(j)
+# for each document in the test file.
 	bigsums.append({})
 	for z in baseapprentissage :
-	#Mot dans doctest ?
+	# for each word in the learning base
+		#we're keeping track of the presence of the word in the test doc
 		if z in j[1] : 
 			Motdansdoctest = True
 		else : 
 			Motdansdoctest = False
 		for ka in wordininputfile.keys() :
-		#mot dans K ?
+		#for each class in the learning basis 
+		#if the word is in the class
 			if ka not in bigsums[-1].keys() :
 				bigsums[-1][ka] = 0
 			if Motdansdoctest :
@@ -112,6 +119,7 @@ for j in motdanstest :
 	maxi = 0
 	classem = 0
 	for a,b in bigsums[-1].items() :
+	#we're checking if the result is right or not
 		if b < maxi :
 			maxi = b
 			classem = a
