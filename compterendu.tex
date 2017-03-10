@@ -4,8 +4,8 @@
 \usepackage{lmodern}
 \usepackage[francais]{babel}
 \usepackage{color}
-\oddsidemargin=-0,8cm
-\headsep=-1,5cm
+\oddsidemargin=-0,1cm
+\headsep=-0cm
 
 \setlength{\parskip}{0,3cm}
 
@@ -21,29 +21,81 @@
 
 \section{Introduction}
 
-Dans ce projet nous allons essayer de déterminer la classification d'un ensemble de document à partir de la fréquence d'apparition comparée à celle d'une base étalon.
+Dans ce projet nous allons essayer de déterminer la classification d'un ensemble de document à partir de la fréquence d'apparition comparée à celle d'une base d'apprentissage.
 
-Exemple simplifié : si pour une classe A, nous voyons surtout certains type de document ( par exemple des documents texte), si pour une classe B, nous voyons surtout d'autres type de document ( par exemple des documents audios). 
-Nous avons un ensemble de document de classe inconnue, nous pourrons donc retrouver sa classe en fonction des fréquences d'apparition.
+Exemple simplifié : si pour une classe A, nous voyons surtout certains types de document ( par exemple des documents texte), si pour une classe B, nous voyons surtout d'autres types de documents ( par exemple des documents audios). 
+Nous avons un ensemble de documents de classe inconnue, nous pourrons donc retrouver leur classe en fonction des fréquences d'apparition des mots qu'ils contiennent.
 
-\section{Problematique}
+\section{Problématique}
 
-Nous allons chercher à représenter un document sous forme de vecteur de variables aléatoires discrètes de Bernoulli. 
+Cette étude est basée sur plusieurs hypothèses :
 
-\section{Parsing et Utilisation}
+\underline{Hypothèse 1 :} On suppose que l'apparition des termes du vocabulaire dans les documents d'une classe k suit une loi de Bernoulli.
+
+\underline{Hypothèse 2 :} La base d'apprentissage est constituée de mots du vocabulaire qui sont tirés de manière indépendante.
+
+D'après l'hypothèse 1, on a $ p_{k}(d)=\sum\limits^{v}_{j=1}q_{kj}^{X_{jd}}{(1-q_{kj})}^{1-X_{jd}}.$
+
+
+avec : 
+
+	   k : classe $\in$ {$\{1..k\}$}
+
+	   j : mot $\in$ {$\{1..V\}$} (vocabulaire de mots)
+	   
+	   d : document
+
+
+D'après la formule de Bayes, on peut poser : $p_d(k) = \frac{p_d(k) * p(k)}{p(d)}$
+
+Dans cette formule, on négligera p(d).
+
+Afin d'optimiser la vitesse d'exécution du programme, on préfère calculer les logarithmes de ces valeurs. En effet, cela nous permet de remplacer le produit par une somme. On calcule donc la formule suivante :
+
+$ \forall k,\; log(p_d(k)) = \sum\limits^{j} (\alpha \; log(p_k(j) +  \bar{\alpha} \; log(1-p_k(j))) + log(p(k)) $
+
+où $\alpha$ représente la présence du mot j dans le document testé et avec 
+
+$p_k(d) = \frac{|apparitions \; de \; j \; dans \; les \; documents \; de \;classe \;k| + 1}{|documents\; de\; classe\; k| + 2}$.
+
+Pour déterminer la classe du document testé, il suffira alors de trouvé le maximum des $log(p_d(k))$ pour ce document.
+
+
+
+\section{Réalisation}
 
 Notre programme va commencer par parser le fichier en entrée :
-Il va lire le fichier ligne par ligne, les découper à chaque espace espaces, stocker le numéro de classe dans un dictionnaire.
-Il va ensuite ajouter dans le dictionnaire de cette classe une liste de dictionnaire, et pour chaque ligne de cette classe va ajouter ses données sous forme de couple nom_du_document:nombre_de_presence.
-Nous faisons un tirage random entre 1 et 100, si notre tirage est inférieur à 31, nous considérons la ligne lue comme une ligne du test, et pour le reste comme une ligne de la base d'apprentissage. On compte en même temps le nombre de docs de chaque classes.  De plus nous allons stocker dans une liste l'ensemble des mots présents dans ces classes pour pouvoir repérer ultérieurement leur absence.
+Il va lire le fichier ligne par ligne, les découper à chaque espace, stocker le numéro de classe dans un dictionnaire.
+Il va ensuite ajouter dans le dictionnaire de cette classe une liste de dictionnaire, et pour chaque ligne de cette classe va ajouter ses données sous forme de couple 
+
+$(nom\_du\_document:nombre\_de\_presence)$.
+
+
+Nous faisons un tirage random entre 1 et 100, si notre tirage est inférieur à 31, nous considérons le document de la ligne est ajouté aux documents test, sinon il est ajouté à la base d'apprentissage. On compte en même temps le nombre de documents de chaque classe.  De plus nous allons stocker dans une liste l'ensemble des mots présents dans ces classes pour pouvoir repérer ultérieurement leur absence.
 
 Pour les mots présents dans les classes de test, nous stockons uniquement ceux qu'on va voir apparaitre.
 
-Nous faisons une seconde lecture où nous calculons à la fois la fréquence d'apparition , ou la valeur de la probabilité d'absence de chaque mot dans chaque classe.
+Nous faisons une seconde lecture où nous calculons à la fois la fréquence d'apparition et la valeur de la probabilité d'absence de chaque mot dans chaque classe.
 
-
+\subsection{Fonctions}
+	$readfile$ : Lit le fichier d'entrée et renvoie le quadruplet :
+	\begin{itemize}
+	\item Un dictionnaire contenant les différents documents de chaque classe et leur nombre d'occurence pour la base d'apprentissage
+	\item Un dictionnaire contenant le nombre de documents présent dans chaque classes
+	\item Une liste contenant les différents documents présents dans la base d'apprentissage
+	\item Un dictionnaire contenant les différents documents présents dans la base de test ainsi que leur vraie classe.
+	\end{itemize}
+	
+	
+	$probappari$ : Prends les dictionnaires créés précédemment et renvois le doublet :
+	\begin{itemize}
+	\item Un dictionnaire contenant les frequences d'apparition de chaque mot dans chaque classes 
+	\item Un dictionnaire contenant la fréquence d'absence pour chaque classes
+	\end {itemize}
 \section{Utilisation}
 
-Pour utiliser notre programme, il suffit juste d'utiliser Python3.
+Pour utiliser notre programme, il suffit juste d'utiliser le script de Test : ./Testing.sh 
+
+Celui-ci crée des jeux de test automatiquement et suit les performances du programme.
 
 \end{document}

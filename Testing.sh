@@ -13,6 +13,11 @@ echo "Test 1000"
 head -1000 BaseReuters-29 > Test_1000
 time python3 projetfinal.py Test_1000
 
+echo "Test 10000"
+head -10000 BaseReuters-29 > Test_10000
+time python3 projetfinal.py Test_10000
+
+
 echo "Test Jeu Complet"
 
 time python3 projetfinal.py BaseReuters-29
