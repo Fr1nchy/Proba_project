@@ -1,6 +1,7 @@
 import time	#debug
 from math import log
 import random
+import sys
 data = {}
 def readfile(file) :
 	f = open(file, "r")
@@ -71,7 +72,7 @@ def computeProbasK(data) :
 
 
 #wordintestfile,nbdocsintestfile,baseapprentissage=readfile("BaseReuters-29")
-wordininputfile,nbdocsininputfile,baseapprentissage,motdanstest=readfile("test")
+wordininputfile,nbdocsininputfile,baseapprentissage,motdanstest=readfile(sys.argv[1])
 
 la,pasla=probappari(wordininputfile,nbdocsininputfile,baseapprentissage)
 probasK = computeProbasK(data)
