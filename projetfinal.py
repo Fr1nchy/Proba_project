@@ -119,7 +119,7 @@ for j in motdanstest :
 		juste += 1
 	else :
 		faux += 1
-print("Score Juste : ", juste)
-print("Score Faux : ", faux)
+pourcentage = (juste/(juste+faux)) * 100
+print("Jeu de test :", sys.argv[1],"Score Juste : ", juste, "Score Faux : ", faux, "Pourcentage de reussite" ,pourcentage )
 
 
